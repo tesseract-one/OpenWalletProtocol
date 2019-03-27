@@ -18,7 +18,7 @@ Response message has this structure:
 {
   "version": "1.0", // Protocol version
   "id": Number, // Request id
-  "response": Object | Number | Boolean | null, // Response
+  "response": Object | Number | Boolean | String | Array | null, // Response
   "error": Object | null // Error object
 }
 ```
@@ -31,6 +31,13 @@ Primitives that can be handled by JSON (integer, string, boolean, float, array, 
 `Binary data` by default should be sent in Base64 format.
 
 API can provide own rules for serialization of JSON non-native types (network based)
+
+### Common error types
+
+* `NOT_SUPPORTED`: API doesn't exists or message with this type is not supported
+* `CANCELLED_BY_USER`: user cancelled operation
+* `WRONG_PARAMETERS`: problems in message body. Wrong parameters
+* `UNKNOWN_ERROR`: something strange happened
 
 ### Mobile
 For IPC on mobile devices protocol defines special UTI schemes in reverse domain notation.
@@ -110,4 +117,4 @@ URL Scheme: `openwallet-keychain-{network}://`
 
 Message type: `OPENWALLET_KEYCHAIN_{NETwORK}`
 
-[Keychain API Documentation](keychain.md)
+[Keychain API Documentation](OWPs/owp-1.md)
