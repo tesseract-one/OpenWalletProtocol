@@ -6,20 +6,20 @@ This protocol defines a way of interaction between distributed Application and W
 
 ### Messages
 Request message in Open Wallet protocol is a JSON serialized object with this structure.
-```json
+```ts
 {
   "version": "1.0", // Protocol version
-  "id": "int", // Request id
-  "request": "object" // Request object
+  "id": Number, // Request id
+  "request": Object // Request object
 }
 ```
 Response message has this structure:
-```json
+```ts
 {
   "version": "1.0", // Protocol version
-  "id": "int", // Request id
-  "response": "object | prmitive | null", // Response
-  "error": "object | null" // Error object
+  "id": Number, // Request id
+  "response": Object | Number | Boolean | null, // Response
+  "error": Object | null // Error object
 }
 ```
 `error` should be `null` in all non-error cases. `response` can be `null` for requests without response data.
@@ -44,12 +44,12 @@ For API avialability checks we use URL shemes, based on API names. URL sheme pre
 In browser IPC should be implemented via `Window.postMessage()` mechanism. Origin of message is always `"*"` (they will be sent to own window). 
 
 Request message will have slightly different format:
-```json
+```ts
 {
-  "type": "string", // New option. Message type
+  "type": String, // New option. Message type
   "version": "1.0", // Protocol version
-  "id": "int", // Request id
-  "request": "object" // Request object
+  "id": Number, // Request id
+  "request": Object // Request object
 }
 ```
 New `type` property is a string which consists of `OPENWALLET` prefix and snake-cased API suffix.
@@ -60,30 +60,30 @@ Application can send special message to check is API available. Wallet should re
 If wallet doesn't support requested API it should respond too, but with an error message.
 
 Request message:
-```json
+```ts
 {
   "type": "OPENWALLET_HAS_API",
   "version": "1.0",
-  "id": "int", // Request id
+  "id": Number, // Request id
   "request": { "type": "{API TYPE}" }
 }
 ```
 
 Response message:
-```json
+```ts
 {
   "version": "1.0",
-  "id": "int", // Request id
+  "id": Number, // Request id
   "response": true,
   "error": null
 }
 ```
 
 If wallet doesn't support this API it should respond with:
-```json
+```ts
 {
   "version": "1.0",
-  "id": "int", // Request id
+  "id": Number, // Request id
   "response": null,
   "error": { 
     "type": "NOT_SUPPORTED",
